@@ -1,0 +1,15 @@
+target_os = ['android']
+target_os_only = True
+
+solutions = [
+  { "name"        : 'src',
+    "url"         : 'https://chromium.googlesource.com/chromium/src.git@c254b52f7661657df3d56ff997030fc36988c9cd',
+    "deps_file"   : 'DEPS',
+    "managed"     : False,
+    "custom_deps" : {
+      "src/third_party/WebKit/Source/devtools/devtools-node-modules": None,
+      "src/third_party/swiftshader/third_party/pnacl-subzero": "https://chromium.googlesource.com/native_client/pnacl-subzero@c48bb8b02c98ae49438e43aa1143a958784822a5",
+    },
+    "custom_vars": {},
+  },
+]

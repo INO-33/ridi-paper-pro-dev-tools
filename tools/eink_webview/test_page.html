@@ -1,0 +1,32 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EInk WebView checkpoint smoke</title>
+<style>
+  body { margin: 0; background: #eee; color: #111; font: 22px sans-serif; }
+  main { padding: 24px; }
+  #css { border: 6px solid #111; background: #fff; padding: 20px; margin: 14px 0; }
+  #image { width: 120px; height: 60px; background: #111; display: block; }
+  #canvas2d { width: 120px; height: 60px; border: 3px solid #111; display: block; }
+  #mutation { background: #fff; border: 3px solid #111; padding: 12px; }
+  #long { height: 1400px; background: linear-gradient(#fff, #bbb); margin-top: 16px; }
+</style>
+<main>
+  <h1 id="text">TEXT_OK</h1>
+  <section id="css">CSS_OK background border text</section>
+  <img id="image" alt="IMAGE_OK" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60'%3E%3Crect width='120' height='60' fill='black'/%3E%3C/svg%3E">
+  <canvas id="canvas2d" width="120" height="60"></canvas>
+  <div id="mutation">DOM_PENDING</div>
+  <div id="long">SCROLL_REGION</div>
+</main>
+<script>
+  var canvas = document.getElementById('canvas2d');
+  var context = canvas.getContext('2d');
+  context.fillStyle = '#111';
+  context.fillRect(0, 0, 120, 60);
+  setTimeout(function() {
+    var mutation = document.getElementById('mutation');
+    mutation.textContent = 'DOM_UPDATE_OK';
+    mutation.style.background = '#111';
+    mutation.style.color = '#fff';
+  }, 700);
+</script>

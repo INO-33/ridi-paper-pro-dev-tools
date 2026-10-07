@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+: "${ANDROID_BUILD_TOP:?Set ANDROID_BUILD_TOP to the restored Android source tree}"
+exec "$ANDROID_BUILD_TOP/prebuilts/python/linux-x86/2.7.5/bin/python2.7" "$@"

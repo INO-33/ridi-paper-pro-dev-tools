@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+: "${ANDROID_BUILD_TOP:?Set ANDROID_BUILD_TOP to the restored Android source tree}"
+exec "$ANDROID_BUILD_TOP/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/arm-linux-androidkernel-nm" "$@"
