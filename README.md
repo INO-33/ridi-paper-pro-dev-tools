@@ -19,3 +19,7 @@ Ubuntu 24.04 host package inventory is recorded in host-environment.json.
 Java and Python are preserved, but host libraries/packages still need setup.
 The Chromium Dockerfile's apt repositories/base image are not fully mirrored.
 No fresh Android/Chromium build or physical validation was run for this export.
+
+The consolidated checkpoint uses six active GitHub repositories. Android changes
+are grouped in RIDI_ANDROID8_CHANGES; Breakpad/SwiftShader changes are bundled in
+RIDI_CHROMIUM_M58/ridi-dependencies. Earlier individual repositories are archives.
