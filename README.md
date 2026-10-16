@@ -1,25 +1,42 @@
-# RIDI Android 8 build support
+# RIDI PAPER PRO · Android/WebView 빌드 도구
 
-Private source checkpoint dated 2026-10-07. Pair this repository with
-INO-33/RIDI_ANDROID8_MANIFEST; its lock file pins the exact support commit.
+Android 8과 Chromium M58의 호스트 환경·빌드 래퍼를 관리합니다.
+**[메인 manifest 저장소](https://github.com/INO-33/RIDI_ANDROID8_MANIFEST)**가 전체 소스
+조합을 고정합니다. SD/eMMC CLI·GUI와 Windows 배포 빌더는 별도
+**[SD 도구 저장소](https://github.com/INO-33/RIDI_PAPER_PRO_SD_TOOLS)**에서 관리합니다.
 
-Contains Android host wrappers, a materialized Java 8 JDK/JRE, platform tools,
-Chromium M58 build scripts and Dockerfile, and updater producer source/assets.
-No build outputs, disk backups, user data, credentials or signing secrets are
-intentionally included. Preserve individual upstream notices and licenses.
+## 구성
 
-The manifest's prepare script creates the workspace layout and supplies
-RIDI_WORKSPACE/ANDROID_BUILD_TOP. Use build.sh to select a product explicitly.
-The producer scripts here are exported copies; the active BSP was not edited.
-The historical initial installer still references the original backup and
-deliverables and is retained for reference. Use the self-contained updater.
+| 경로 | 역할 |
+|---|---|
+| `build.sh` | Android 환경 검사와 제품 빌드, 로그 저장 |
+| `host-tools/` | Java 8 JDK/JRE, Python 2 래퍼, 플랫폼 도구 |
+| `tools/chromium-m58-build/` | ARM/x86 WebView 빌드 스크립트와 Dockerfile |
+| `tools/eink_webview/` | 기존 WebView 진단·빌드 보조 스크립트 |
+| `host-environment.json` | 원래 호스트 OS·패키지·depot_tools 버전 기록 |
+| `EXPORTED_SHA256SUMS`, `verify_assets.py` | 보존 파일 해시와 Java 실행 검사 |
 
-This is source preservation, not a certified clean-environment release.
-Ubuntu 24.04 host package inventory is recorded in host-environment.json.
-Java and Python are preserved, but host libraries/packages still need setup.
-The Chromium Dockerfile's apt repositories/base image are not fully mirrored.
-No fresh Android/Chromium build or physical validation was run for this export.
+## 사용
 
-The consolidated checkpoint uses six active GitHub repositories. Android changes
-are grouped in RIDI_ANDROID8_CHANGES; Breakpad/SwiftShader changes are bundled in
-RIDI_CHROMIUM_M58/ridi-dependencies. Earlier individual repositories are archives.
+메인 저장소의 `prepare.sh`로 소스를 받은 뒤:
+
+```sh
+source /absolute/path/to/ridi-workspace/env.sh
+"$ANDROID_BUILD_TOP/ridi-build-support/build.sh" check e70q10_reference-eng
+"$ANDROID_BUILD_TOP/ridi-build-support/build.sh" build e70q10_reference-eng bootimage systemimage vendorimage
+python3 "$ANDROID_BUILD_TOP/ridi-build-support/verify_assets.py"
+```
+
+`RIDI_WORKSPACE`, `ANDROID_BUILD_TOP`으로 작업 경로를 전달합니다.
+`E70Q10_OUT_DIR`은 출력 경로, `E70Q10_BUILD_JOBS`는 병렬 빌드 수입니다.
+Java 8 런타임은 원래 PC의 외부 JRE 링크에 의존하지 않도록 파일 자체를
+보존했습니다. 호스트 기본 패키지는 별도 준비가 필요합니다.
+
+WebView 소스 준비와 빌드는
+[Chromium README](https://github.com/INO-33/RIDI_CHROMIUM_M58)를 따릅니다.
+로그는 작업 폴더의 `.orchestrator/logs/`에 저장합니다. 일부 과거 진단 스크립트는
+원래 빌드 출력 경로를 기본값으로 사용하므로 환경 변수/인자를 확인합니다.
+
+체크포인트: **2026-10-16**. 소스·필수 호스트 자산을 보존하는 체크포인트이며,
+새 환경의 전체 Android/Chromium 빌드 검증은 별도입니다. 전체 제품 상태와
+기기별 검증 범위는 메인 README를 확인하세요.
