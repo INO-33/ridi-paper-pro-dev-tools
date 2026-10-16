@@ -5,7 +5,7 @@ source_root="${CHROMIUM_SRC_ROOT:-/work/src}"
 depot_tools_root="${DEPOT_TOOLS_ROOT:-/work/depot_tools}"
 out_dir="${M58_OUT_DIR:-$source_root/out/m58_xenial_x86}"
 log_dir="${M58_LOG_DIR:-/work/logs}"
-expected_commit="${M58_SOURCE_COMMIT:-f7ab562fe9bba3dc2ac4365ce94d9c03f151d832}"
+expected_commit="${M58_SOURCE_COMMIT:-4de3bcc82ddfa88e763a2f135c3bf75e4b0f6467}"
 
 mkdir -p "$log_dir"
 stamp="$(date +%Y%m%d-%H%M%S)"

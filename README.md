@@ -1,9 +1,9 @@
-# RIDI PAPER PRO · Android/WebView 빌드 도구
+# RIDI PAPER PRO · 개발 보조 도구
 
 Android 8과 Chromium M58의 호스트 환경·빌드 래퍼를 관리합니다.
-**[메인 manifest 저장소](https://github.com/INO-33/RIDI_ANDROID8_MANIFEST)**가 전체 소스
+**[메인 manifest 저장소](https://github.com/INO-33/ridi-paper-pro)**가 전체 소스
 조합을 고정합니다. SD/eMMC CLI·GUI와 Windows 배포 빌더는 별도
-**[SD 도구 저장소](https://github.com/INO-33/RIDI_PAPER_PRO_SD_TOOLS)**에서 관리합니다.
+**[SD 도구 저장소](https://github.com/INO-33/ridi-paper-pro-sd-tools)**에서 관리합니다.
 
 ## 구성
 
@@ -33,7 +33,7 @@ Java 8 런타임은 원래 PC의 외부 JRE 링크에 의존하지 않도록 파
 보존했습니다. 호스트 기본 패키지는 별도 준비가 필요합니다.
 
 WebView 소스 준비와 빌드는
-[Chromium README](https://github.com/INO-33/RIDI_CHROMIUM_M58)를 따릅니다.
+[Chromium README](https://github.com/INO-33/ridi-paper-pro-webview)를 따릅니다.
 로그는 작업 폴더의 `.orchestrator/logs/`에 저장합니다. 일부 과거 진단 스크립트는
 원래 빌드 출력 경로를 기본값으로 사용하므로 환경 변수/인자를 확인합니다.
 
