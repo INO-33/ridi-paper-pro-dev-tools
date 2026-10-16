@@ -5,7 +5,7 @@ source_root="${CHROMIUM_SRC_ROOT:-/work/src}"
 depot_tools_root="${DEPOT_TOOLS_ROOT:-/work/depot_tools}"
 out_dir="${M58_OUT_DIR:-$source_root/out/m58_xenial_x86}"
 log_dir="${M58_LOG_DIR:-/work/logs}"
-expected_commit="${M58_SOURCE_COMMIT:-4de3bcc82ddfa88e763a2f135c3bf75e4b0f6467}"
+expected_commit="${M58_SOURCE_COMMIT:-43b07f94cc6ad7cd803f7c4b513b09f8753141d5}"
 
 mkdir -p "$log_dir"
 stamp="$(date +%Y%m%d-%H%M%S)"
@@ -17,7 +17,7 @@ echo "source_root=$source_root"
 echo "depot_tools_root=$depot_tools_root"
 echo "out_dir=$out_dir"
 
-test -d "$source_root/.git"
+git -C "$source_root" rev-parse --git-dir >/dev/null
 test -d "$depot_tools_root"
 test -x "$source_root/buildtools/linux64/gn"
 test -x "$(command -v ninja)"

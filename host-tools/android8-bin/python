@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 : "${ANDROID_BUILD_TOP:?Set ANDROID_BUILD_TOP to the restored Android source tree}"
+compat="${RIDI_HOST_COMPAT:-${RIDI_WORKSPACE:-}/host-compat}"
+if [[ -x "$compat/usr/bin/python2.7" ]]; then
+    export LD_LIBRARY_PATH="$compat/lib/x86_64-linux-gnu:$compat/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+    exec "$compat/usr/bin/python2.7" "$@"
+fi
 exec "$ANDROID_BUILD_TOP/prebuilts/python/linux-x86/2.7.5/bin/python2.7" "$@"

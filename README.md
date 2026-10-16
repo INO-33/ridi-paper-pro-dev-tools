@@ -18,6 +18,10 @@ Android 8과 Chromium M58의 호스트 환경·빌드 래퍼를 관리합니다.
 
 ## 사용
 
+처음 구성할 때에는 메인 저장소의 [DEVELOPMENT.md](https://github.com/INO-33/ridi-paper-pro/blob/checkpoint-20261016/DEVELOPMENT.md)를
+따라 `setup-host.py`로 호스트 패키지를 설치하고 `check-host.py`로 검사합니다.
+전체 PC 패키지 기록을 설치 목록으로 사용하지 않습니다.
+
 메인 저장소의 `prepare.sh`로 소스를 받은 뒤:
 
 ```sh
@@ -30,12 +34,13 @@ python3 "$ANDROID_BUILD_TOP/ridi-build-support/verify_assets.py"
 `RIDI_WORKSPACE`, `ANDROID_BUILD_TOP`으로 작업 경로를 전달합니다.
 `E70Q10_OUT_DIR`은 출력 경로, `E70Q10_BUILD_JOBS`는 병렬 빌드 수입니다.
 Java 8 런타임은 원래 PC의 외부 JRE 링크에 의존하지 않도록 파일 자체를
-보존했습니다. 호스트 기본 패키지는 별도 준비가 필요합니다.
+보존했습니다. 호스트 기본 패키지는 메인 저장소의 `host-packages.json`과 설치기로 준비합니다.
 
 WebView 소스 준비와 빌드는
 [Chromium README](https://github.com/INO-33/ridi-paper-pro-webview)를 따릅니다.
 로그는 작업 폴더의 `.orchestrator/logs/`에 저장합니다. 일부 과거 진단 스크립트는
 원래 빌드 출력 경로를 기본값으로 사용하므로 환경 변수/인자를 확인합니다.
+주 개발 경로인 Android 및 M58 ARM/x86 빌더는 복원된 작업 폴더 경로를 사용합니다.
 
 체크포인트: **2026-10-16**. 소스·필수 호스트 자산을 보존하는 체크포인트이며,
 새 환경의 전체 Android/Chromium 빌드 검증은 별도입니다. 전체 제품 상태와

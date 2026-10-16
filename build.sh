@@ -8,6 +8,8 @@ product="${2:-e70q10_reference-eng}"
 [[ "$mode" == check || "$mode" == build ]] || { echo 'Usage: build.sh check|build [product-eng] [make targets]'; exit 2; }
 export JAVA_HOME="$support/host-tools/jdk8-local/usr/lib/jvm/java-8-openjdk-amd64"
 export RIDI_ANDROID8_TOOL_BIN="$support/host-tools/android8-bin"
+export RIDI_HOST_COMPAT="${RIDI_HOST_COMPAT:-$workspace/host-compat}"
+export LD_LIBRARY_PATH="$RIDI_HOST_COMPAT/lib/x86_64-linux-gnu:$RIDI_HOST_COMPAT/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 export E70Q10_LUNCH="$product"
 export E70Q10_OUT_DIR="${E70Q10_OUT_DIR:-$workspace/android-out/${product%-*}}"
 export ANDROID_DATA="${ANDROID_DATA:-$E70Q10_OUT_DIR/.android-data}"
@@ -16,7 +18,13 @@ log="$workspace/.orchestrator/logs/build-${product}-$(date +%Y%m%d-%H%M%S).log"
 shift "$(( $# > 0 ? 1 : 0 ))"
 (( $# == 0 )) || shift
 if [[ "$mode" == build && $# == 0 ]]; then set -- droid; fi
-if "$source_tree/device/ridi/e70q10/tools/build_android8.sh" "$mode" "$@" >"$log" 2>&1; then
+manifest_tools="${RIDI_MANIFEST_DIR:-$source_tree/.repo/manifests}"
+if (
+    python3 "$manifest_tools/check-host.py" android "$workspace" \
+        --min-free-gb "${E70Q10_MIN_FREE_GB:-25}" \
+        --json "$workspace/.orchestrator/logs/host-android.json" || exit $?
+    "$source_tree/device/ridi/e70q10/tools/build_android8.sh" "$mode" "$@"
+) >"$log" 2>&1; then
     echo "${mode} completed for ${product}; log: ${log}"
 else
     echo "${mode} failed for ${product}; log: ${log}" >&2
