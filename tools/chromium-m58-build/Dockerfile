@@ -4,7 +4,7 @@ ARG BISON_VERSION=2:3.0.4.dfsg-1
 
 LABEL org.opencontainers.image.title="chromium-m58-build" \
       org.opencontainers.image.description="Reproducible Ubuntu Xenial host for Chromium 58 Android x86" \
-      chromium.source.commit="43b07f94cc6ad7cd803f7c4b513b09f8753141d5" \
+      chromium.source.commit="392bec2c2bdb2420de5c8454bb2165f5b1d54596" \
       chromium.bison.version="3.0.4" \
       chromium.python.version="2.7" \
       chromium.java.version="8"

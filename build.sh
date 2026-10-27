@@ -18,6 +18,26 @@ log="$workspace/.orchestrator/logs/build-${product}-$(date +%Y%m%d-%H%M%S).log"
 shift "$(( $# > 0 ? 1 : 0 ))"
 (( $# == 0 )) || shift
 if [[ "$mode" == build && $# == 0 ]]; then set -- droid; fi
+if [[ "$mode" == build && ( "$product" == e70q10_reference-eng || "$product" == e70q10_minimal-eng ) ]]; then
+    for target in "$@"; do
+        case "$target" in
+            bootimage|systemimage|vendorimage|droid)
+                if [[ -z "${E70Q10_WIFI_MODULE:-}" || ! -f "$E70Q10_WIFI_MODULE" ]]; then
+                    echo 'Build kernelimage first, run build-wifi.py, then export E70Q10_WIFI_MODULE to the generated .ko; see DEVELOPMENT.md' >&2
+                    exit 2
+                fi
+                release_file="$E70Q10_OUT_DIR/target/product/e70q10/obj/KERNEL_OBJ/include/config/kernel.release"
+                if [[ -f "$release_file" ]]; then
+                    release="$(cat "$release_file")"
+                    strings "$E70Q10_WIFI_MODULE" | grep -F "vermagic=$release " >/dev/null || {
+                        echo 'Wi-Fi module does not match the selected kernel output; rebuild it with build-wifi.py' >&2
+                        exit 2
+                    }
+                fi
+                ;;
+        esac
+    done
+fi
 manifest_tools="${RIDI_MANIFEST_DIR:-$source_tree/.repo/manifests}"
 if (
     python3 "$manifest_tools/check-host.py" android "$workspace" \
